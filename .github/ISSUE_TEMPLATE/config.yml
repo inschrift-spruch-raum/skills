@@ -8,7 +8,4 @@ contact_links:
     about: Post it in Ideas. New skills do not start as issues.
   - name: Support for another harness or issue tracker
     url: https://github.com/mattpocock/skills/discussions/categories/ideas
-    about: Post it in Ideas. Read the out-of-scope notes first, most trackers are already ruled out.
-  - name: Is my request out of scope?
-    url: https://github.com/mattpocock/skills/blob/main/SCOPE.md
-    about: The bar every issue must clear, and the requests this repo has already decided not to take.
+    about: Describe your harness or issue tracker in Ideas.

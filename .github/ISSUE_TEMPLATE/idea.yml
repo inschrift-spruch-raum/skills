@@ -5,19 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        This repo is curated. An idea stays open only if it clears **both** parts of the bar in [`SCOPE.md`](https://github.com/mattpocock/skills/blob/main/SCOPE.md):
-
-        1. **Observed failure**: it describes something that went wrong in a real session, not a hypothetical improvement.
-        2. **Fits the philosophy**: it doesn't match anything in [`.out-of-scope/`](https://github.com/mattpocock/skills/tree/main/.out-of-scope), and it isn't a config option, a harness-specific branch, or a personal-workflow tweak.
-
-        New skills are not accepted. `misc/` skills are frozen.
+        Describe the problem you observed and the change you propose. Include enough context for a maintainer to evaluate it.
   - type: checkboxes
-    id: read-scope
+    id: checks
     attributes:
       label: Before filing
       options:
-        - label: I've read `SCOPE.md` and checked `.out-of-scope/`, and this isn't covered by either.
-          required: true
         - label: This issue is about one problem.
           required: true
         - label: I searched open and closed issues for a duplicate.

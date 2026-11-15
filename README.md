@@ -24,57 +24,18 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 ## Installation (30-second setup)
 
-A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies editable files into your project, and you update them by hand. Pick one per agent, because installing both gives you every skill twice.
+Install editable skill files with [skills.sh](https://skills.sh/mattpocock/skills). Updates are manual.
 
 ### 1. Get the skills
 
-<details>
-<summary><strong>Claude Code</strong></summary>
-
 ```bash
-claude plugin install mattpocock-skills@claude-plugins-official
+npx skills@latest add mattpocock/skills -a <agent>  # omit -a to choose your agent
 ```
 
-Updates itself by default.
-
-</details>
+When the installer asks which skills to take, include `setup-matt-pocock-skills`. To update, run `npx skills@latest update`, and re-run `add` to pick up new skills.
 
 <details>
-<summary><strong>Codex</strong></summary>
-
-```bash
-codex plugin marketplace add mattpocock/skills
-codex plugin add mattpocock-skills@mattpocock
-```
-
-Updates itself at startup.
-
-</details>
-
-<details>
-<summary><strong>GitHub Copilot</strong> (CLI and VS Code)</summary>
-
-```bash
-copilot plugin marketplace add mattpocock/skills
-copilot plugin install mattpocock-skills@mattpocock
-```
-
-Then, once, add to `~/.copilot/settings.json`:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "mattpocock": { "source": { "source": "github", "repo": "mattpocock/skills" }, "autoUpdate": true }
-  }
-}
-```
-
-In VS Code, run **Chat: Install Plugin From Source** and enter `https://github.com/mattpocock/skills`. It updates daily.
-
-</details>
-
-<details>
-<summary><strong>Gemini CLI</strong> (manual updates)</summary>
+<summary><strong>Gemini CLI</strong></summary>
 
 ```bash
 gemini skills install https://github.com/mattpocock/skills.git --path skills/engineering
@@ -82,17 +43,6 @@ gemini skills install https://github.com/mattpocock/skills.git --path skills/pro
 ```
 
 Re-run both commands to update.
-
-</details>
-
-<details>
-<summary><strong>Any other agent, or editable files</strong> (manual updates)</summary>
-
-```bash
-npx skills@latest add mattpocock/skills -a <agent>  # cursor, opencode, devin, windsurf, amp, pi; omit -a to choose
-```
-
-When the installer asks which skills to take, include `setup-matt-pocock-skills`. To update, run `npx skills@latest update`, and re-run `add` to pick up new skills.
 
 </details>
 
