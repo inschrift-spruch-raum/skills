@@ -55,7 +55,7 @@ Lessons are built from **components** in `assets/`: stylesheets, quiz widgets, s
 
 ## Common questions
 
-**Where does it put the files? Mine ended up in `~/.claude/skills`.**
+**Where does it put the files?**
 In the directory you ran `/teach` in ([#377](https://github.com/mattpocock/skills/issues/377)).
 
 **Do I stay in one session, or start a new one per lesson?**
