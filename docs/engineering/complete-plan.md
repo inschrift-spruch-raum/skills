@@ -6,7 +6,7 @@ It plans the entire scope you requested, even when the work needs several phases
 
 ## When to reach for it
 
-Type `/complete-plan`, or the agent reaches for it automatically when a task fits.
+Type `/complete-plan` to invoke it. This is a user-invoked skill: the agent does not start it automatically, and other skills may recommend it but cannot invoke it.
 
 | What you need | Use |
 | --- | --- |
