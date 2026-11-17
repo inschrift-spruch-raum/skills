@@ -33,6 +33,8 @@ Before it writes anything, `to-spec` sketches the **seams** where the feature wi
 
 Other skills use those agreed seams later. [tdd](https://aihero.dev/skills-tdd) works only at seams you agreed in advance. [code-review](https://aihero.dev/skills-code-review) reviews the diff against the spec, so a seam nobody agreed to shows up as a review finding. Both connections go through this document. That is why you should take the seam conversation seriously here, and not leave it for implementation.
 
+The testing-decisions section also records the development stage and retained test scope under the shared [TDD policy](https://aihero.dev/skills-tdd#test-scope-and-budget). Unspecified code is treated as unstable and retains only representative happy paths. The test-code ratio is ideally at or below 15%, with a hard limit of 30% for the whole project. Full acceptance criteria remain complete; verification outside the retained suite can be direct or temporary.
+
 ## Common questions
 
 **Where did `/to-prd` go?**

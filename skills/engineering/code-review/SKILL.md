@@ -12,6 +12,12 @@ Both axes run as **parallel sub-agents** so they don't pollute each other's cont
 
 The issue tracker should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
 
+## Test scope
+
+Before evaluating test changes or missing tests, read the shared [test policy](../tdd/TEST-POLICY.md). Use the documented stage, defaulting to unstable. The test-code ideal upper bound is 15% and the hard limit is 30% for the whole project, including test-only support. For unstable code, retain only representative happy paths; absent edge-case or non-happy-path regression tests are not defects by themselves. Review required behavior and verification evidence without demanding that every acceptance criterion become a retained test.
+
+Pass the policy pointer, development stage, and retained test scope to both review axes. Do not reinterpret a general request for regression verification as permission to enlarge an unstable suite.
+
 ## Process
 
 ### 1. Pin the fixed point
@@ -63,12 +69,14 @@ Issue both sub-agent calls together, in the foreground, and aggregate the report
 
 - The full diff command and commit list.
 - The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it).
+- The shared test-policy pointer, documented development stage (default: unstable), and retained test scope from the Test scope section.
 - The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
 
 - The diff command and commit list.
 - The path or fetched contents of the spec.
+- The shared test-policy pointer, documented development stage (default: unstable), and retained test scope from the Test scope section.
 - The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.

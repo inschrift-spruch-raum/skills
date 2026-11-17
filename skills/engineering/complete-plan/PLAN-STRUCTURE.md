@@ -9,6 +9,8 @@ Use this structure for directory plans. All paths are relative to the root of on
 - A small, focused task with few work packages and no separate shared design topics may use one file. Retain goal, approach, tasks, acceptance, and necessary risks without creating empty files to fill a directory.
 - Split according to meaning and readers' needs, not a fixed line count, word count, or file count. When the user explicitly requests one file, use headings, a table of contents, and anchors rather than sibling files.
 
+Read the shared [test policy](../tdd/TEST-POLICY.md) when planning retained automated tests. Record the development stage (default: unstable), agreed seams, and retained scope in the overview; work packages inherit one project-wide budget, ideally at or below 15% and never above 30%. Unstable code retains only representative happy paths. Acceptance criteria still cover all required behavior and name direct or temporary verification where retained tests are out of scope.
+
 ## Directory outline
 
 Choose from the optional design topics below according to the requirements.
@@ -46,8 +48,8 @@ Keep shared design in `design/` rather than a catch-all `design.md`. Put local d
 | `design/data.md` | Entities and relationships, persisted field meanings and constraints; storage, lifecycle, consistency, and necessary compatibility, backfill, migration, or recovery arrangements. Link to flows for business state-transition rules. | When data models, persistence, or migration behavior are added or changed. |
 | `design/ui.md` | Pages and navigation, main interactions, loading, empty and error states, and action feedback; relevant accessibility or adaptation requirements. Reference flows and contracts for business semantics. | When a user interface is involved. |
 | `design/decisions.md` | Important choices, evidence, alternatives, and consequences; assumptions affecting the approach and their validation; unresolved options and affected tasks. Reuse valid existing ADRs through links instead of duplicating decisions. | When there are material tradeoffs worth retaining, not routine naming or function details. |
-| `tasks/<work-package>.md` | Work-package identifier, deliverable behavior, associated requirements, dependencies, required design links and their purpose, implementation boundaries, local acceptance, and relevant risks. Size by assignable and verifiable work, not one file per function. | Per work package in a directory plan. |
-| `acceptance.md` | Coverage linking requirements to work packages and acceptance scenarios; final end-to-end integration, regressions, and necessary migration or rollout validation; known check entry points and conditions still to verify. Link to work packages for local acceptance. | Always for a directory plan; retain an equivalent section in a single-file plan. |
+| `tasks/<work-package>.md` | Work-package identifier, deliverable behavior, associated requirements, dependencies, required design links and their purpose, implementation boundaries, local acceptance and its verification method, retained test scope under the shared budget, and relevant risks. Size by assignable and verifiable work, not one file per function. | Per work package in a directory plan. |
+| `acceptance.md` | Coverage linking requirements to work packages and acceptance scenarios; final end-to-end integration, regressions, and necessary migration or rollout validation; known check entry points and conditions still to verify. Link to work packages for local acceptance. Distinguish required verification from retained automated tests. | Always for a directory plan; retain an equivalent section in a single-file plan. |
 
 ## Glossary increments
 

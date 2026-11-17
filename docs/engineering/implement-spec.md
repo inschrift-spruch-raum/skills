@@ -26,12 +26,14 @@ You invoke this by typing `/implement-spec`, and the agent won't reach for it on
 Everything lands on one branch. Each implementer:
 
 1. confirms its worktree is based on the integration branch before it starts,
-2. builds its ticket with [tdd](https://aihero.dev/skills-tdd), red-green one slice at a time,
+2. receives the shared development stage and retained test scope, then builds its ticket with [tdd](https://aihero.dev/skills-tdd) at agreed seams, red-green one slice at a time,
 3. merges the integration branch tip into its own branch before reporting done, so landing it is a fast-forward.
 
 The tracker decides whether a pull request exists at all. If your tracker closes work through PRs, or you ask for one, the skill opens a draft PR after the first merge and marks it ready at the end. Otherwise the run stops on the integration branch with every ticket resolved the way your tracker closes work, which works fully offline against a local markdown tracker.
 
 Implementers talk to the orchestrator through [context pointers](https://www.aihero.dev/ai-coding-dictionary/context-pointer) (the spec, the ticket, shared exploration notes, earlier commits) rather than pasted summaries. This keeps each subagent's prompt small and leaves room in the orchestrator's window for the graph.
+
+All tickets and workers share the [TDD test scope and budget](https://aihero.dev/skills-tdd#test-scope-and-budget). The project-wide test-code ideal upper bound is 15% and the hard limit is 30%, not a separate allowance for each worktree. Without a documented stage, code is unstable and retains only representative happy-path tests. The orchestrator passes this scope to implementers and reconciles overlapping tests and support code when merging. Required acceptance still covers the complete spec.
 
 ## Common questions
 
@@ -71,7 +73,7 @@ A worktree holds only what git tracks. Tests that read gitignored fixtures, loca
 
 - Several implementers are running at once whenever the graph allows, not one after another.
 - A ticket starts as soon as its last blocker lands on the integration branch, not when the whole run ends.
-- Every ticket's trace shows `tdd` running, with a failing test before the code.
+- Implementers use `tdd` at agreed seams within the shared stage and budget; existing verification is reused rather than duplicated per ticket.
 - Merges into the integration branch are fast-forwards, not conflict resolutions.
 - The run ends on one branch with every ticket resolved, and a PR only if your tracker wanted one.
 

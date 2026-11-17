@@ -44,6 +44,12 @@ Generate the design topics that the work needs. There is no catch-all `design.md
 
 Each detailed definition has one owner. Other files link to it; a work package links directly to the design needed to implement it. Work-package checks do not replace final integration acceptance.
 
+## Test planning
+
+The overview records the documented development stage, agreed seams, and retained test scope under the shared [TDD policy](https://aihero.dev/skills-tdd#test-scope-and-budget). Unspecified code is unstable and retains only representative happy-path tests. The whole project shares a 15% ideal upper bound and a 30% hard limit for test code, including test-only support. Work packages inherit this budget rather than each receiving an allowance.
+
+Acceptance still covers all requirements, including failures and permissions. Where a retained automated case is outside the current stage, the plan names direct checks or temporary reproductions instead. Reduced retained test scope never removes required implementation or verification.
+
 ## Complete delivery, one entry point
 
 A phase schedules work; it does not remove requirements. Every requirement needs an implementation path and an acceptance check. An explicitly limited prototype keeps that limited scope rather than acquiring unrelated production infrastructure.

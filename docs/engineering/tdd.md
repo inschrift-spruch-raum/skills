@@ -2,6 +2,8 @@
 
 `tdd` builds a feature or fixes a bug test-first: one failing test, then just enough code to pass it, then the next behaviour. It carries the standards that make that loop produce tests worth keeping: what a good test is, where tests go, what mocks are for, and the three anti-patterns that make a suite worthless.
 
+It follows a shared test-code budget: 15% is the ideal upper bound and 30% is the hard limit. Unstable code retains only representative happy-path tests.
+
 It writes no test at a seam you have not agreed to first. Before any test exists, it names the public boundaries it intends to test at and stops for your confirmation. Testing effort is finite, and this step spends it on the critical paths instead of on every edge case. `tdd` is also a **reference**, not a driver. It contains the rules of the loop, and something else (you, or [implement](https://aihero.dev/skills-implement)) runs the [session](https://www.aihero.dev/ai-coding-dictionary/session) that applies them.
 
 ## When to reach for it
@@ -24,6 +26,21 @@ That last row is a real gap. The skill decides *where* the seams go, but nothing
 
 [codebase-design](https://aihero.dev/skills-codebase-design) needs to be installed. `tdd` used to carry its own deep-module and interface-design notes; v1.0 deleted them in favour of the shared skill, and `tdd` now uses its interface-design vocabulary. Nothing else; the skill is [stateless](https://www.aihero.dev/ai-coding-dictionary/stateless) and writes no files of its own.
 
+## Test scope and budget
+
+Use the development stage stated by you or documented for the affected code. Without one, the agent treats it as unstable; it cannot declare stability just to add more tests.
+
+| Stage | Retained tests |
+| --- | --- |
+| Unstable | Representative successful user or caller paths at agreed public seams; no retained error-path, edge-case, or non-happy-path regression cases |
+| Stable | Additional failure, boundary, and regression cases for explicit requirements or demonstrated risks, within the same budget |
+
+The ratio is test source lines divided by product plus test source lines for the whole target project. Test-only helpers, mocks, and fixture-generating code count as tests. Blank lines, comments, documentation, generated code, and third-party code are excluded. This is a code-volume limit, not a coverage percentage.
+
+At or below 15% is preferred. Above 15% through 30% is allowed, but is not a target to fill. Above 30% is over the hard limit. Keep tests lean by reusing public seams and removing duplication, not by padding product code, hiding test helpers, or changing formatting to manipulate counts.
+
+Required error handling, permissions, and other product behavior still need implementation and verification. Direct checks and temporary reproductions can supply evidence without becoming retained tests. Remove temporary non-retained reproductions after verification. Existing suites may still run; local work does not authorize deleting unrelated tests.
+
 ## The loop, and the seam it runs at
 
 The skill rests on three terms.
@@ -45,6 +62,11 @@ The three anti-patterns it is written to prevent:
 Mocks are for system boundaries only: external APIs, time, randomness, sometimes the filesystem or the database. Never mock your own modules.
 
 ## Common questions
+
+**Does happy-path-only mean skipping the red step?**
+
+No. A success-path test goes red while the required behavior is missing, then green when it works. The phase policy limits which tests remain in the suite, not whether a test-first slice starts with a real failure. Temporary reproductions may also verify a bug fix, but unstable code does not retain a non-happy-path case afterward.
+
 
 **Why doesn't it refactor? The description says "red-green-refactor".**
 
@@ -76,6 +98,7 @@ No. Run against one ticket, it can propose work that belongs to a sibling ticket
 
 ## It's working if
 
+- It records the development stage and chooses retained cases within the 15% ideal upper bound and 30% hard limit; unstable code keeps only happy paths.
 - It stops and names the seams it intends to test at, and waits, before any test file exists.
 - One test appears, goes red, gets just enough code to pass, and only then does the next test appear, not a batch of tests followed by a batch of code.
 - Test names read as capabilities ("user can checkout with valid cart"), not as internals ("checkout calls paymentService.process").

@@ -12,7 +12,7 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+2. Read the shared [test policy](../tdd/TEST-POLICY.md) and record the documented development stage, defaulting to unstable. Sketch the stage-appropriate retained tests: unstable code keeps only representative happy paths, with a 15% ideal upper bound and a 30% hard limit for the project-wide test-code ratio. Prefer existing seams at the highest useful boundary; propose new ones only when needed. Complete acceptance criteria still cover all required behavior, without turning every criterion into a retained test.
 
 Check with the user that these seams match their expectations.
 
@@ -60,9 +60,11 @@ Exception: if a prototype produced a snippet that encodes a decision more precis
 
 A list of testing decisions that were made. Include:
 
+- The development stage and retained test scope under the shared test policy, including the project-wide test-code budget
 - A description of what makes a good test (only test external behavior, not implementation details)
 - Which modules will be tested
 - Prior art for the tests (i.e. similar types of tests in the codebase)
+- How required behavior outside the retained suite will be verified, without expanding the unstable-stage test scope
 
 ## Out of Scope
 

@@ -15,6 +15,10 @@ This skill has you show commands, outputs and captured artifacts. **Redact every
 
 If the redacted output is not enough to diagnose the bug, say so and ask the user.
 
+## Retained test scope
+
+Read the shared [test policy](../tdd/TEST-POLICY.md) before choosing what to retain. Use the documented development stage, defaulting to unstable. Keep the test-code ratio ideally at or below 15%, with a hard limit of 30%. Temporary failure reproductions are valid diagnosis tools; unstable code retains only representative happy-path tests, not permanent error-path or edge-case reproductions. Verification of the actual bug is still required.
+
 ## Phase 1: Build a feedback loop
 
 **This is the skill.** Everything else is mechanical. If you have a **tight** pass/fail signal for the bug (one that goes red on _this_ bug), you will find the cause; bisection, hypothesis-testing, and instrumentation all just consume it. If you don't have one, no amount of staring at code will save you.
@@ -79,7 +83,7 @@ Confirm:
 
 Once it's red, shrink the repro to the **smallest scenario that still goes red**. Cut inputs, callers, config, data, and steps **one at a time**, re-running the loop after each cut, and keep only what's load-bearing for the failure.
 
-Why bother: a minimal repro shrinks the hypothesis space in Phase 3 (fewer moving parts left to suspect) and becomes the clean regression test in Phase 5.
+Why bother: a minimal repro shrinks the hypothesis space in Phase 3 (fewer moving parts left to suspect) and provides the before/after verification in Phase 5. Retain it as a regression test only when the development stage and budget allow.
 
 Done when **every remaining element is load-bearing**: removing any one of them makes the loop go green.
 
@@ -111,9 +115,9 @@ Tool preference:
 
 **Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second.
 
-## Phase 5: Fix + regression test
+## Phase 5: Fix + verify
 
-Write the regression test **before the fix**, but only if there is a **correct seam** for it.
+Keep a red-capable reproduction **before the fix**. Retain it as a regression test only when the development stage and shared budget allow it and there is a **correct seam**. For unstable code, use a temporary reproduction for non-happy-path behavior, then remove it after verifying the fix.
 
 A correct seam is one where the test exercises the **real bug pattern** as it occurs at the call site. If the only available seam is too shallow (single-caller test when the bug needs multiple callers, unit test that can't replicate the chain that triggered the bug), a regression test there gives false confidence.
 
@@ -121,7 +125,7 @@ A correct seam is one where the test exercises the **real bug pattern** as it oc
 
 If a correct seam exists:
 
-1. Turn the minimised repro into a failing test at that seam.
+1. Exercise the minimised repro at that seam. Make it a retained failing regression test only when the stage and budget allow; otherwise keep it temporary.
 2. Watch it fail. If you forced the red by mutating code or a fixture, `diff` against a pristine copy to prove the mutation landed before you trust it.
 3. Apply the fix.
 4. Watch it pass.
@@ -132,7 +136,7 @@ If a correct seam exists:
 Required before declaring done:
 
 - [ ] Original repro no longer reproduces (re-run the Phase 1 loop)
-- [ ] Regression test passes (or absence of seam is documented)
+- [ ] Stage-appropriate retained tests pass; temporary non-retained reproductions and their fixtures are removed after verification, and any missing seam is documented
 - [ ] All `[DEBUG-...]` instrumentation removed (`grep` the prefix)
 - [ ] Throwaway prototypes deleted (or moved to a clearly-marked debug location)
 - [ ] The hypothesis that turned out correct is stated in the commit / PR message, so the next debugger learns

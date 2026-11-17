@@ -45,6 +45,12 @@ This design exists to avoid a generic review skill that does not know your stand
 
 The **smell baseline** sits under the repo's standards. It is twelve code smells from chapter 3 of Fowler's _Refactoring_: Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest. Each is a labelled heuristic ("possible Feature Envy"), never a hard violation. Each states what the smell is and how to fix it, so a finding comes with a fix attached rather than only a complaint. Both axes skip anything your linter already enforces.
 
+## Test scope
+
+Both axes receive the shared [TDD policy](https://aihero.dev/skills-tdd#test-scope-and-budget), the documented development stage, and the retained test scope. Without a stage, code is unstable and retains only representative happy-path tests. The project-wide test-code ratio has a 15% ideal upper bound and a 30% hard limit, including test-only helpers and mocks.
+
+Missing edge-case or non-happy-path regression tests are not defects by themselves for unstable code. Review still evaluates required product behavior and verification evidence; a complete acceptance criterion does not automatically require a retained automated test.
+
 ## Common questions
 
 **It collides with Claude Code's own `/code-review`. What do I do?**

@@ -1,5 +1,7 @@
 # When to Mock
 
+Read [TEST-POLICY.md](TEST-POLICY.md) before adding test support. Test-only mocks and fixture-generating code count toward the test-code budget; prefer a small boundary fixture over a mock framework or setup hierarchy.
+
 Mock at **system boundaries** only:
 
 - External APIs (payment, email, etc.)

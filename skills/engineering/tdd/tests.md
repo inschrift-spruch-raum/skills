@@ -1,5 +1,7 @@
 # Good and Bad Tests
 
+Apply [TEST-POLICY.md](TEST-POLICY.md) before selecting cases. These examples illustrate test quality, not a requirement to retain one test for every behavior or internal layer. For unstable code, keep representative happy paths within the shared budget.
+
 ## Good Tests
 
 **Integration-style**: Test through real interfaces, not mocks of internal parts.

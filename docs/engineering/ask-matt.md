@@ -34,6 +34,8 @@ The skill's leading word is **flow**, a path *through* the skills rather than a 
 - **Standalones**, which sit off every flow and which you use on their own: the complete implementation plan, the isolated browser reader, the prototype, the questionnaire, the research run.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
 
+Build, planning, diagnosis, and review routes share the [TDD test scope and budget](https://aihero.dev/skills-tdd#test-scope-and-budget): 15% is the ideal test-code upper bound and 30% is the hard limit for the project. Without a documented stage, code is unstable and retains only representative happy paths. Full acceptance still requires verification; it does not imply a permanent automated test for every criterion.
+
 ## The phase boundary
 
 The skill's other key idea is the **phase boundary**. A phase is a chunk of work inside a session (the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling), the implementation, the QA), and the boundary between two of them is the only place the question "what do I do with this context?" belongs. Mid-phase there is nothing to decide: continue, or split what is left into [subagents](https://www.aihero.dev/ai-coding-dictionary/subagent).

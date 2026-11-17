@@ -33,12 +33,18 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), [se
 A run has five steps, in order:
 
 1. Read the ticket or spec and work out the seams.
-2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
+2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams within the development stage and shared test budget, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
+4. Run the full existing test suite once, at the end; this is not a requirement to expand it.
 5. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, so you can discard the previous ticket's context.
+
+## Retained test scope
+
+Before adding tests, the agent applies the shared [TDD test scope and budget](https://aihero.dev/skills-tdd#test-scope-and-budget). It uses the documented development stage, defaulting to unstable: only representative happy-path tests remain for unstable code. The project-wide test-code ratio has a 15% ideal upper bound and a 30% hard limit, including test-only helpers and mocks.
+
+Running relevant existing files or the full existing suite does not require adding another test. Temporary failure reproductions are removed after verification if they are outside the retained scope. Required product behavior still needs implementation and verification, and unrelated existing tests are not deleted for a local ticket.
 
 ## Pre-agreed seams
 

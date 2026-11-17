@@ -14,7 +14,7 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 ### 1. Gather context
 
-Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.
+Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments. Read the shared [test policy](../tdd/TEST-POLICY.md): carry forward the documented development stage (default: unstable), agreed seams, and retained test scope. Tickets share one project-wide test-code budget, ideally at or below 15% and never above 30%; they do not each receive their own allowance.
 
 ### 2. Explore the codebase (optional)
 
@@ -28,7 +28,7 @@ Break the work into **tracer bullet** tickets.
 
 <vertical-slice-rules>
 
-- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
+- Each slice cuts a narrow but COMPLETE path through the required layers (schema, API, UI, verification): vertical, NOT a horizontal slice of one layer. Reuse existing tests when they already verify it; add retained tests only for the development stage and shared budget. Unstable code keeps representative happy paths, not a new test for every layer.
 - A completed slice is demoable or verifiable on its own
 - Each slice is sized to fit in a single fresh context window
 - Any prefactoring should be done first
@@ -74,6 +74,8 @@ Do NOT close or modify any parent issue.
 
 **Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
 
+**Test scope:** development stage, required verification, and any retained test work within the shared project budget; reference existing coverage instead of duplicating it.
+
 **Status:** ready-for-agent
 
 - [ ] Acceptance criterion 1
@@ -90,6 +92,10 @@ A reference to the parent issue on the tracker (if the source was an existing is
 ## What to build
 
 The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
+
+## Test scope
+
+Development stage, required verification, and any retained test work within the shared project budget. Reference existing coverage instead of duplicating it.
 
 ## Acceptance criteria
 
