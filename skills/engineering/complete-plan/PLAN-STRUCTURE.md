@@ -1,20 +1,20 @@
-# 计划目录与文件职责
+# Plan Directory and File Responsibilities
 
-目录式计划使用本结构。所有路径均相对于同一份计划的根目录；例如默认根目录是 `docs/plans/<主题>/`，`./design/` 指该目录中的设计材料。
+Use this structure for directory plans. All paths are relative to the root of one plan. For example, the default root is `docs/plans/<topic>/`, and `./design/` holds that plan's design material.
 
-## 选择交付形式
+## Choose the delivery format
 
-- 用户指定文件、格式、位置或只在聊天交付时优先遵守。聊天内按相同职责组织内容，不声称已保存文件。
-- 多模块、多阶段、多个可独立实施的工作包，或需要区分多类共享设计时，采用目录式计划。总览作为一个阅读入口，细节按职责展开。
-- 范围集中、少量工作包且没有多类共享设计的小任务，可以用一个文件；保留目标、方案、任务、验收和必要的风险章节，不为凑目录生成空文件。
-- 用语义和读者需要决定拆分，不用固定行数、字数或文件数门槛。用户明确要单文件时，用标题、目录和锚点分层，不另建旁支文件。
+- Honor the user's requested file, format, location, or chat-only delivery first. Chat responses retain the same content responsibilities without claiming that files were saved.
+- Use a directory plan for multiple modules, phases, independently assignable work packages, or shared design topics. The overview provides one reading entry point; details expand by responsibility.
+- A small, focused task with few work packages and no separate shared design topics may use one file. Retain goal, approach, tasks, acceptance, and necessary risks without creating empty files to fill a directory.
+- Split according to meaning and readers' needs, not a fixed line count, word count, or file count. When the user explicitly requests one file, use headings, a table of contents, and anchors rather than sibling files.
 
-## 目录骨架
+## Directory outline
 
-下列设计主题是可选集合，按需求选择。
+Choose from the optional design topics below according to the requirements.
 
 ```text
-<主题>/
+<topic>/
   README.md
   design/
     README.md
@@ -26,53 +26,53 @@
     ui.md
     decisions.md
   tasks/
-    01-<工作包>.md
-    02-<工作包>.md
+    01-<work-package>.md
+    02-<work-package>.md
   acceptance.md
 ```
 
-不再创建承载全部设计的 `design.md`。共享设计放在 `design/` 中，局部设计放进对应主题的章节；一个主题仍包含多组可分别阅读的设计时，在 `design/` 下继续按模块或子主题分文件，并更新设计索引。
+Keep shared design in `design/` rather than a catch-all `design.md`. Put local design in sections of the relevant topic. If a topic still contains distinct designs that readers can use independently, split it further by module or subtopic within `design/` and update the design index.
 
-## 每个文件放什么
+## What each file contains
 
-| 文件 | 内容与边界 | 生成条件 |
+| File | Content and boundaries | When to generate it |
 | --- | --- | --- |
-| `README.md` | 目标与用户可见完成结果；原始需求清单、来源和标识；硬约束及已授权排除项；完整路线、工作包依赖与并行关系；阅读导航；关键未决事项及其影响的链接。链接到详细方案，不在总览复述其正文。 | 目录式计划始终生成，作为唯一总览入口。 |
-| `design/README.md` | 设计文件索引、各文件解决的问题、适用读者与阅读顺序；项目现有权威文档的链接；哪些可选主题不涉及以及原因。 | 有独立设计材料时生成；没有时在总览说明即可。 |
-| `design/glossary.md` | 本次新增或语义变更的领域术语：定义、适用范围、概念关系、依据和状态。稳定术语引用项目现有术语表。具体增量规则见下一节。 | 出现新增、变更或有必要记录的歧义术语时生成。没有时在设计索引链接现有术语表，不建空壳。 |
-| `design/architecture.md` | 已核实的现状；受影响模块的职责、依赖方向和主要数据流；复用点与必要新增或调整；有实施价值的代码定位线索。接口和字段细节链接到所属文件。 | 涉及模块结构或协作关系设计时生成。 |
-| `design/flows.md` | 用户与系统的主要流程、状态转换、正常及异常路径；需求涉及的取消、重试、超时、并发等行为。明确触发条件、结果与恢复方式。 | 有多步骤、状态或异常交互需要说明时生成。 |
-| `design/contracts.md` | 模块间与对外接口、事件、消息的输入输出及语义；校验、错误、权限、幂等和兼容约束。复用数据实体时引用其定义，不复制字段表。 | 新增或改变接口及协作契约时生成。 |
-| `design/data.md` | 数据实体及关系、持久化字段的含义和约束；存储、生命周期、一致性，以及必要的兼容、回填、迁移或恢复安排。业务状态的转换规则链接到流程文件。 | 新增或改变数据模型、持久化或迁移行为时生成。 |
-| `design/ui.md` | 页面与导航、主要交互、加载／空白／错误状态、用户操作后的反馈；相关可访问性或适配要求。业务语义引用流程和接口契约。 | 涉及用户界面时生成。 |
-| `design/decisions.md` | 重要选择、依据、替代方案、后果；影响方案的假设及验证动作；未决选项和受影响任务。已存在的有效 ADR 用链接复用，不再写另一份相同决策。 | 存在值得保留的重要取舍时生成，不记录普通命名和函数细节。 |
-| `tasks/<工作包>.md` | 工作包标识、交付行为、关联需求、前置依赖、必读设计链接及阅读目的、实施边界、局部验收和相关风险。以可分派、可验收为粒度，不按每个函数生成文件。 | 目录式计划按工作包生成。 |
-| `acceptance.md` | 需求到工作包及验收场景的覆盖关系；全部工作完成后的端到端集成、回归，以及实际需要的迁移或上线验证；已知检查入口和待核实的验证条件。局部验收只链接到工作包。 | 目录式计划始终生成；单文件计划保留对应章节。 |
+| `README.md` | Goal and user-visible outcome; original requirements, sources, and identifiers; hard constraints and authorized exclusions; complete roadmap, work-package dependencies and parallel work; navigation; links to critical unresolved decisions and their effects. Link to detailed designs without repeating their contents. | Always for a directory plan, as its single overview entry point. |
+| `design/README.md` | Design index, the question each file answers, intended readers and reading order; links to existing authoritative project documents; omitted optional topics and why they do not apply. | When there is separate design material; otherwise explain this in the overview. |
+| `design/glossary.md` | New or semantically changed domain terms: definitions, scope, relationships, evidence, and status. Stable terms reference the existing project glossary. See the increment rules below. | When there are new terms, changed meanings, or ambiguities worth recording. Otherwise link the existing glossary in the design index without creating an empty file. |
+| `design/architecture.md` | Verified current state; affected modules' responsibilities, dependency directions, and main data flow; reuse and necessary additions or changes; useful code locations. Link to the owning files for interface and field details. | When module structure or collaboration needs design. |
+| `design/flows.md` | Main user and system flows, state transitions, normal and failure paths; relevant cancellation, retries, timeouts, or concurrency. Define triggers, outcomes, and recovery. | When multistep behavior, state, or failure interactions need explanation. |
+| `design/contracts.md` | Inputs, outputs, and semantics of module and external interfaces, events, and messages; validation, errors, permissions, idempotency, and compatibility. Reference reused data entities without copying their field definitions. | When interfaces or collaboration contracts are added or changed. |
+| `design/data.md` | Entities and relationships, persisted field meanings and constraints; storage, lifecycle, consistency, and necessary compatibility, backfill, migration, or recovery arrangements. Link to flows for business state-transition rules. | When data models, persistence, or migration behavior are added or changed. |
+| `design/ui.md` | Pages and navigation, main interactions, loading, empty and error states, and action feedback; relevant accessibility or adaptation requirements. Reference flows and contracts for business semantics. | When a user interface is involved. |
+| `design/decisions.md` | Important choices, evidence, alternatives, and consequences; assumptions affecting the approach and their validation; unresolved options and affected tasks. Reuse valid existing ADRs through links instead of duplicating decisions. | When there are material tradeoffs worth retaining, not routine naming or function details. |
+| `tasks/<work-package>.md` | Work-package identifier, deliverable behavior, associated requirements, dependencies, required design links and their purpose, implementation boundaries, local acceptance, and relevant risks. Size by assignable and verifiable work, not one file per function. | Per work package in a directory plan. |
+| `acceptance.md` | Coverage linking requirements to work packages and acceptance scenarios; final end-to-end integration, regressions, and necessary migration or rollout validation; known check entry points and conditions still to verify. Link to work packages for local acceptance. | Always for a directory plan; retain an equivalent section in a single-file plan. |
 
-## 新增术语表的增量规则
+## Glossary increments
 
-写 `design/glossary.md` 前先读项目现有术语表，避免把已有概念换名或复制出第二套定义。条目至少包含：
+Before writing `design/glossary.md`, read the existing project glossary so existing concepts are not renamed or copied into a second set of definitions. Each entry contains at least:
 
-| 项目 | 要写的内容 |
+| Item | Required content |
 | --- | --- |
-| 术语与定义 | 本次新增概念的精确定义；变更概念还需引用原定义，说明改了什么。 |
-| 适用范围与关系 | 该定义适用于哪些行为或模块；与现有概念如何关联，必要时给边界例子。 |
-| 依据与状态 | 用户要求、已核实的项目事实或技术选择；标明已确定、待确认或待验证，不能把关键歧义写成既定事实。 |
-| 归并安排 | 实施时需要并入哪个项目权威术语表，关联哪个工作包；稳定且不变的术语只引用其现有定义。 |
+| Term and definition | A precise definition of the new concept. For a changed concept, reference the previous definition and explain the difference. |
+| Scope and relationships | The behaviors or modules where the definition applies, its relationships to existing concepts, and boundary examples when useful. |
+| Evidence and status | The user requirement, verified project fact, or technical choice behind the definition. Label it as established, awaiting confirmation, or awaiting validation; do not present a critical ambiguity as settled fact. |
+| Merge arrangement | The authoritative project glossary to update during implementation and the responsible work package. Stable, unchanged terms only reference their existing definitions. |
 
-规划中的术语增量以本文件为唯一详细定义处。其他计划文件使用相同名称并链接到条目；不另复制一张定义表。格式或协议字段属于契约或数据文件，不能把这些文件的内容混进术语表。
+This file is the single detailed source for the plan's glossary increments. Other plan files use consistent names and link to the entries rather than copying a definition table. Format and protocol fields belong in contracts or data, not in the glossary.
 
-没有现有术语表时，记录已知的术语和证据，不臆造项目权威文档。仅请求计划不授权更新项目术语表、写全局 ADR 或改产品；将这些实施动作放入工作包，除非用户另有明确授权。
+When no project glossary exists, record known terms and evidence without inventing an authoritative project document. Planning alone does not authorize updating the project glossary, writing global ADRs, or changing the product. Put those implementation actions in work packages unless the user has separately authorized them.
 
-## 导航与单处维护
+## Navigation and single-source maintenance
 
-- 需求标识与原意由总览维护；工作包引用需求标识，整体验收引用需求和工作包。完整性来自这条映射，不依赖把全部内容放在一个文件。
-- 每份详细设计在设计索引中有链接；工作包直接链接实施它必须阅读的设计文件或具体章节，并说明该文件提供什么约束。读者不必先通读全部设计。
-- 同一事实、定义或契约只有一处详细定义。索引、路线和任务可作简短摘要，但引用正文，不复制后各自维护。
-- 风险、假设和决策条件放在与其相关的文件；总览列出影响交付的未决项并链接过去。不得通过拆分隐藏阻塞条件。
-- 文件间使用可解析的相对链接和稳定的需求／工作包标识。检查索引覆盖、链接目标、标识唯一性、依赖及需求覆盖关系；不把文件存在或关键词命中当成内容完整。
-- 可选主题未涉及时，在设计索引说明原因；没有独立设计目录时由总览说明。不要为每个可选主题生成只有标题或“无”的空文件。
+- The overview owns requirement identifiers and original meanings. Work packages reference those identifiers; overall acceptance references requirements and work packages. Completeness comes from this mapping, not from placing all content in one file.
+- Link every detailed design from the design index. Each work package links directly to the design files or sections needed to implement it and explains which constraints they provide. Readers should not have to read all designs first.
+- Give each fact, definition, or contract one detailed source. Indexes, roadmaps, and tasks may summarize briefly, but link to the source instead of maintaining copies.
+- Keep risks, assumptions, and decision conditions with their relevant topic. The overview links to unresolved items that affect delivery. Splitting must not hide blockers.
+- Use resolvable relative links and stable requirement and work-package identifiers. Check index coverage, link targets, identifier uniqueness, dependencies, and requirement coverage. File existence or keyword matches do not establish complete content.
+- Explain omitted optional topics in the design index, or in the overview when no separate design directory is needed. Do not create optional files containing only a heading or "none."
 
-## 修订已有计划
+## Revise an existing plan
 
-先保留已有需求标识、决策依据、未决事项和有效引用。适用的现有结构继续使用；把冗长单文件改成目录时，将原有设计迁移到 `design/`、任务迁移到 `tasks/`，更新总览、验收和已知入链。原入口可保留为导航，但不能留下两个内容不同却同等权威的完整计划，也不能静默丢掉仍被引用的章节。
+Preserve requirement identifiers, decision evidence, unresolved items, and valid references. Keep an existing structure when it still fits. When converting a long single file to a directory, move its design into `design/` and tasks into `tasks/`, then update the overview, acceptance, and known incoming links. The original entry point may remain as navigation, but must not leave two conflicting full plans with equal authority or silently discard sections that are still referenced.

@@ -19,7 +19,7 @@ Type `/browser-read`, or the [agent](https://www.aihero.dev/ai-coding-dictionary
 
 This is a Windows-specific recipe. It expects Chromium at `%LOCALAPPDATA%\Chromium\Application\chrome.exe` and a Node.js runtime with built-in WebSocket support; the supplied recipe uses Node 24 or later. Its local CDP port must be available.
 
-The page must be accessible to you. The skill does not supply credentials or reuse another browser's login state. Temporary browser data and any helper files need a writable location and must be cleaned up after the session.
+The page must be accessible to you. The skill does not supply credentials or reuse another browser's login state. Temporary browser data and any helper files need a writable location and must be cleaned up after the session. The agent records the exact profile path, browser process, and temporary files created for this read, and removes only those resources.
 
 ## Isolation and rendered content
 

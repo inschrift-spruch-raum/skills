@@ -1,22 +1,22 @@
 ---
 name: browser-read
-description: "用隔离的 Chromium 实例读取被 Cloudflare 人机验证或登录墙挡住的网页。Use when 抓取返回 403 且响应头带 Cf-Mitigated: challenge，页面出现 Just a moment…／正在进行安全验证／Verify you are human，或页面必须靠 JS 渲染、登录态才能读到正文。不要先试 archive、Wayback、截图服务或公共代理。"
+description: "Read pages blocked by Cloudflare challenges or login walls using isolated Chromium. Use when a fetch returns 403 with Cf-Mitigated: challenge, the page shows Just a moment or Verify you are human (including localized equivalents), or content requires JavaScript rendering or authentication. Use the browser before archives, screenshot services, or public proxies."
 ---
 
-# 浏览器读取网页
+# Read Web Pages with Chromium
 
-直接 HTTP 抓取被 Cloudflare 拦住时，唯一稳定可行的是**驱动一个真实 Chromium** 完成验证，再从 DevTools 协议（CDP）读 DOM。本配方已在 encode.su 上跑通并通过。
+When Cloudflare blocks direct HTTP fetching, the only consistently successful approach in the original test was to drive a real Chromium browser through verification, then read the DOM through the Chrome DevTools Protocol (CDP). This recipe was successfully validated on encode.su in that test.
 
-## 硬规则
+## Hard rules
 
-- 只用 Chromium：`%LOCALAPPDATA%\Chromium\Application\chrome.exe`。**不要用 Edge**：用户明确禁止；且 Edge 在本机的 `--user-data-dir` 不隔离账号与扩展，会带上用户身份。
-- 永远新建隔离 profile（`%TEMP%\chromium_iso_<ts>`），不碰用户正在运行的浏览器实例。
-- 结束必须清理：关浏览器、删 profile、删临时文件、校验无残留。用户对"浏览器带来的存储"零容忍。
-- **不要**在浏览器之前先试 archive.today / Wayback / thum.io / mShots / 公共 CORS 代理。这些路径在原始验证中均失败，消耗了约 30 次工具调用。
+- Use only Chromium: `%LOCALAPPDATA%\Chromium\Application\chrome.exe`. **Do not use Edge**: the user explicitly prohibited it, and on the original machine Edge's `--user-data-dir` did not isolate accounts and extensions, exposing the user's identity.
+- Always create a new isolated profile at `%TEMP%\chromium_iso_<ts>`. Record its exact absolute path, the browser process started for this run, and every temporary file created. Leave the user's running browser instances untouched.
+- Clean up at the end: close this run's browser, delete its recorded profile and temporary files, and verify that its resources are gone. Leave all other browser processes, profiles, and files untouched. The user permits no storage left behind by this browser session.
+- **Do not** try archive.today, Wayback, thum.io, mShots, or public CORS proxies before the browser. All of these failed in the original test, consuming about 30 tool calls.
 
-## 步骤
+## Steps
 
-1. **启动**（detached，父进程退出后浏览器仍存活）
+1. **Launch** detached so the browser survives the parent process exiting.
 
    ```
    chrome.exe --user-data-dir=%TEMP%\chromium_iso_<ts> --remote-debugging-port=9666
@@ -24,39 +24,39 @@ description: "用隔离的 Chromium 实例读取被 Cloudflare 人机验证或�
      --disable-sync --disable-extensions --start-maximized --new-window <url>
    ```
 
-   完成判据：`http://127.0.0.1:9666/json/list` 能返回 page target。
+   Completion criterion: `http://127.0.0.1:9666/json/list` returns a page target.
 
-2. **连接**：轮询 `/json/list`，取 page target 的 `webSocketDebuggerUrl`；Node 24+ 用内置 `WebSocket` 直连，无需依赖。
+2. **Connect**: poll `/json/list` and take the page target's `webSocketDebuggerUrl`. Use the built-in `WebSocket` in Node 24 or later to connect directly, without dependencies.
 
-3. **置前**：`Page.bringToFront` + `Runtime.enable`。后台标签页里 Turnstile 永远不完成。
+3. **Bring the page to the foreground** with `Page.bringToFront` and `Runtime.enable`. Turnstile does not complete in a background tab.
 
-4. **等待** 10–15 秒，再 `Page.captureScreenshot`。早于 8 秒会截到加载态。
+4. **Wait** 10-15 seconds, then use `Page.captureScreenshot`. Capturing before 8 seconds produces a loading-state image.
 
-5. **定位复选框**：对**视口截图**做像素扫描（亮度阈值或 ASCII 图）找那个约 20px 的方块，按 `CSS = 设备像素 / devicePixelRatio` 换算（本机 DPR 1.5）。
+5. **Locate the checkbox**: scan the **viewport screenshot** using a brightness threshold or an ASCII representation to find the approximately 20px square. Convert with `CSS = device pixels / devicePixelRatio`. The original machine's DPR was 1.5.
 
-6. **点击**：`Input.dispatchMouseEvent` 依次 mouseMoved → mousePressed → mouseReleased，坐标用**视口 CSS 坐标**。
+6. **Click** using `Input.dispatchMouseEvent` in this order: mouseMoved, mousePressed, mouseReleased. Use **viewport CSS coordinates**.
 
-   完成判据：`document.title` 在 3–6 秒内变成真实标题，且 `document.body.innerText.length` > 2000。
+   Completion criterion: `document.title` changes to the real title within 3-6 seconds, and `document.body.innerText.length` > 2000.
 
-7. **抓取**：`document.body.innerText`；链接用 `document.querySelectorAll('a[href*="github.com"]')`；多页改 `?page=N` 重跑。
+7. **Extract** `document.body.innerText`. For links, use `document.querySelectorAll('a[href*="github.com"]')`. For multiple pages, change `?page=N` and repeat.
 
-8. **清理**：`Browser.close` → 删 `%TEMP%\chromium_iso_*` → 删工作区里的脚本与截图。
+8. **Clean up**: call `Browser.close` on this run's isolated instance, wait for its recorded process to exit, then delete the exact recorded profile path and temporary files. Use the ownership record instead of wildcard profile deletion or cleanup by process name.
 
-   完成判据：无残留 chrome 进程、无 `chromium_iso_*` 目录、无本次会话新增文件。
+   Completion criterion: this run's recorded browser process has exited, its exact profile directory is gone, and all temporary files created by this run are removed. Other sessions' processes and files remain untouched.
 
-## 坐标空间（最容易错的地方）
+## Coordinate spaces
 
-| 来源 | 坐标系 | 能否喂给 CDP |
-|---|---|---|
-| `Page.captureScreenshot` | 视口 CSS 像素（先除以 DPR） | ✅ 正确 |
-| 系统屏幕截图（CopyFromScreen） | 屏幕坐标，含工具栏与窗口偏移 | ❌ 会差一个工具栏高度 |
+| Source | Coordinate system | Suitable for CDP input? |
+| --- | --- | --- |
+| `Page.captureScreenshot` | Viewport pixels; divide by DPR to obtain CSS coordinates | Yes |
+| System screenshot (CopyFromScreen) | Screen coordinates, including toolbar and window offsets | No; the click will be offset by a toolbar height |
 
-混用表现为"点了没反应"；点击失败时重新截**视口**图算坐标，不要盲试。
+Mixing these spaces makes a click appear to do nothing. After a failed click, capture the **viewport** again and recalculate the coordinates instead of guessing.
 
-## 失败模式
+## Failure modes
 
-- 标签页在后台 → 验证不推进；先 `Page.bringToFront`。
-- 复用用户默认 profile → 带上其账号/扩展，越权且触发同步弹窗。
-- 等待不足就截图 → 截到加载态，找不到复选框。
-- 用屏幕坐标点击 → 命中工具栏或空白处。
-- 验证通过后仍读不到正文 → 检查是否被重定向到登录页；此时如实告知用户，不要伪造内容。
+- Background tab: verification does not advance. Call `Page.bringToFront` first.
+- Reusing the user's default profile: accounts and extensions are inherited, exceeding authorization and triggering sync prompts.
+- Capturing too soon: the screenshot shows a loading state, so the checkbox cannot be found.
+- Clicking with screen coordinates: the click hits the toolbar or empty space.
+- Verification passes but the body is still unavailable: check for a redirect to a login page. Report the limitation honestly instead of inventing content.

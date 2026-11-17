@@ -1,85 +1,85 @@
 ---
 name: complete-plan
-description: '完整实施计划：用总览、按主题拆分的设计和工作包覆盖完整软件交付；小任务可单文件，仅规划，不实施。'
+description: 'Complete implementation plans with an overview, design topics, work packages, and acceptance coverage. Small tasks may use one file; planning only.'
 disable-model-invocation: true
 ---
 
-# 完整实施计划
+# Complete Implementation Plan
 
-用户说明想完成什么，代理负责把它变成可实施、可验收的完整计划。独立完成需求归纳、必要调研、方案选择、任务拆解和覆盖检查，直接交付文档。
+The user describes the goal; the agent turns it into a complete plan that can be implemented and verified. Independently organize requirements, do the necessary research, choose an approach, break down the work, and check coverage before delivering the documents.
 
-## 交付契约
+## Delivery contract
 
-- **完整交付**以用户原始需求和明确同意的变更为准，包含让需求真正可用所必需的集成、异常处理、兼容与验证工作；配套要求按项目实际需要确定，不凭空追加企业级架构或无关功能。
-- **阶段只安排顺序。** 规模、工期估计或上下文限制改变任务如何拆解，不自动改变交付范围。计划覆盖所有阶段直到完整交付；首个可运行切片不是整个计划的终点。排除、延期或简化已有需求须有用户明确授权，注明依据。
-- 用户明确限定为原型、概念验证或某个版本时，完整覆盖该限定范围。内部验证实验可以解决不确定性，但其后的正式实现、集成和验收仍属于完整交付计划。
-- **单入口、分层交付。** 本技能自包含；普通规划无需先调用访谈、规格转换、拆票等技能，也不要求配置工单系统、切换会话或逐关批准。复杂计划用总览、设计主题文件和工作包组织，小任务可单文件；不强制生成工单、全局术语表、ADR 或重复材料。
-- **计划不是实施授权。** 用户只要计划时，写计划文档，不修改产品代码、安装依赖、发布工单或执行迁移。用户另外要求实施时，按其授权范围衔接。
+- **Complete delivery** follows the user's original requirements and explicitly agreed changes. Include the integration, error handling, compatibility, and verification needed to make those requirements usable. Choose supporting work to fit the project, without adding unrelated features or enterprise architecture.
+- **Phases determine sequence.** Size, effort estimates, and context limits change how work is divided, not its scope. Plan every phase through complete delivery; the first runnable slice is not the endpoint. Excluding, deferring, or simplifying an existing requirement needs explicit user authorization and a recorded reason.
+- When the user explicitly limits the work to a prototype, proof of concept, or particular version, cover that scope fully. Internal experiments can resolve uncertainty, but the subsequent implementation, integration, and acceptance remain part of the complete delivery plan.
+- **One entry point, layered delivery.** This skill is self-contained. Ordinary planning requires no prior interview, spec conversion, ticketing skill, issue tracker setup, session switch, or approval at every step. Organize complex plans into an overview, design topics, and work packages; small tasks may use one file. Do not require issues, a project-wide glossary, ADRs, or duplicate documents.
+- **Planning does not authorize implementation.** When the user asks only for a plan, write plan documents without changing product code, installing dependencies, publishing issues, or executing migrations. If the user also requests implementation, proceed within that authorization.
 
-## 步骤
+## Steps
 
-### 1. 整理需求，做必要调研
+### 1. Organize requirements and do the necessary research
 
-先读当前对话、用户提供的材料和相关现有计划。进入已有项目时，自行查看与需求直接相关的入口、约定、代码、测试及构建配置；复用已有结论，不重复访谈。按实际需要补充一手外部资料。围绕影响方案的未知点调查，避免全仓库漫游和为填模板而调查。
+Read the current conversation, supplied materials, and relevant existing plans first. In an existing project, inspect the entry points, conventions, code, tests, and build configuration directly related to the requirements. Reuse existing findings instead of repeating an interview. Consult external primary sources when needed. Investigate unknowns that affect the approach, rather than exploring the whole repository or researching to fill a template.
 
-给每项用户需求一个简短标识，保留来源或原意，并区分已证实事实、技术选择与待验证假设。无法访问代码或资料时，基于已有信息继续，准确标注待核实项及实施前的核实动作；不编造已检查的文件、命令或系统行为。
+Give each user requirement a short identifier, preserve its source or original meaning, and distinguish verified facts, technical choices, and assumptions to validate. When code or materials are inaccessible, continue from available information and mark what needs verification and how to check it before implementation. Do not invent inspected files, verified commands, or system behavior.
 
-完成条件：所有明确需求和硬约束均已入账，能据此选择主要实现路径；真正影响目标的歧义进入下一步判断。
+Completion criterion: all explicit requirements and hard constraints are recorded, with enough evidence to choose the main implementation path. Material ambiguities proceed to the next step.
 
-### 2. 代理承担技术决策，只升级关键取舍
+### 2. Own technical decisions and escalate only material tradeoffs
 
-| 情况 | 处理方式 |
+| Situation | Action |
 | --- | --- |
-| 能从代码、测试、文档或工具查到的事实 | 自行查证，不问用户 |
-| 局部、可逆且有项目惯例的实现选择 | 自行选择最合适的方案，仅记录影响后续工作的理由 |
-| 不决定外部契约、风险或方案可行性的函数与分支细节 | 留到实施时设计和测试，不作为规划阻塞项 |
-| 无法自行解决且会实质改变交付的关键取舍 | 按下面的提问门槛处理 |
+| A fact can be found in code, tests, documentation, or tools | Verify it independently instead of asking the user. |
+| A local, reversible implementation choice has an established project convention | Choose the best fit and record only reasons that matter to later work. |
+| A function or branch detail does not determine an external contract, risk, or feasibility | Leave it for implementation and testing; do not make it a planning blocker. |
+| An unresolved tradeoff would materially change delivery | Apply the question threshold below. |
 
-只有以下条件同时满足，才向用户提问：
+Ask the user only when all of the following are true:
 
-1. 当前对话、可访问资料和合理调研均不能确定答案。
-2. 答案会改变需求范围、用户可见行为，或重大成本、数据安全、不可逆的兼容取舍。
-3. 没有既符合已知需求又足够安全的合理默认方案；直接选择会替用户作出其尚未授权的重大决定。
+1. The current conversation, accessible materials, and reasonable research cannot settle the question.
+2. The answer changes scope, user-visible behavior, major cost, data safety, or an irreversible compatibility tradeoff.
+3. There is no reasonable default that is both safe enough and consistent with known requirements; choosing would make an unauthorized major decision for the user.
 
-提问时合并当前独立的关键问题，给出推荐选项及其影响。先完成不受影响的调研和计划部分；不逐个盘问函数边界、命名或内部类型。业务边界若决定用户可见结果，应写清；只有其语义确实无依据且满足上述门槛时才询问。
+Batch independent material questions, provide a recommendation and its effects, and first complete unaffected research and planning. Do not interrogate the user about each function boundary, name, or internal type. Define business boundaries that determine user-visible outcomes, but ask about their meaning only when evidence is missing and the threshold above is met.
 
-用户未回答时，保留未决条件和受影响任务，可交付明确标为待关键决策确认的条件计划；不把沉默或跳过当作同意，也不通过删掉需求伪造完整可执行的结论。用户已明确的取舍不再反复确认。
+If the user does not answer, retain the unresolved condition and affected tasks. Deliver a conditional plan clearly marked as awaiting a critical decision. Silence or a skipped question is not consent; removing requirements does not make a plan complete or executable. Do not ask again about choices the user has already made explicit.
 
-完成条件：普通技术选择由代理承担；仅剩确需用户判断的重大分歧，或已具备继续规划的可靠依据。
+Completion criterion: the agent owns ordinary technical choices. Any remaining disagreement genuinely requires user judgment, or there is reliable evidence to continue planning.
 
-### 3. 写一份可直接用于实施的计划
+### 3. Write a plan ready for implementation
 
-优先采用用户指定的格式。多模块、多阶段、多工作包或多类共享设计采用目录式计划；范围集中、少量工作包的小任务可单文件。目录式计划先读 [PLAN-STRUCTURE.md](PLAN-STRUCTURE.md)，按其中的文件职责组织：`README.md` 是整体路线入口，共享设计拆在计划的 `./design/` 下，任务在 `tasks/` 下，整体验收在 `acceptance.md`。不要再把全部设计塞回 `design.md`，也不要用固定篇幅或空模板制造完整感。
+Prefer the user's requested format. Use a directory plan for multiple modules, phases, work packages, or shared design topics; a small, focused task with few work packages may use one file. For a directory plan, first read [PLAN-STRUCTURE.md](PLAN-STRUCTURE.md) and follow its file responsibilities: `README.md` is the roadmap entry point, shared design topics live under the plan's `./design/`, tasks under `tasks/`, and overall acceptance in `acceptance.md`. Keep design topics separate instead of collecting them in `design.md`. Fixed lengths and empty templates do not establish completeness.
 
-- **目标与范围**：用户最终能做什么，需求标识与硬约束，整体完成条件；只把确实不属于需求或用户明确同意排除的内容列为不做。
-- **现状与方案**：已核实的现状、选定的主要实现路径、关键模块或接口契约、复用点和必要变更。记录有实施价值的定位线索；仅在影响行为、安全或可行性时深入到函数级约束。
-- **实施工作包**：每项写清交付行为、覆盖的需求标识、前置依赖、必须阅读的设计链接及阅读目的、实施边界和验收方式。粒度以可分派、可验收为准，实施代理负责普通内部细节。多个会话或执行者的任务也在同一张完整路线中。
-- **整体验收**：需求级验收、端到端集成验证、相关回归和实际需要的迁移或上线验证。列出有依据的检查入口或测试场景；不把未经核实的命令写成已可运行。逐个工作包通过不等于整体验收通过。
-- **风险与假设**：只保留会影响实施的风险、验证动作和必要的待决事项，关联到相应任务；避免堆积无关假设。
+- **Goal and scope**: what the user will be able to do, requirement identifiers, hard constraints, and overall completion criteria. Exclude only work outside the requirements or explicitly excluded by the user.
+- **Current state and approach**: verified facts, the chosen implementation path, key module or interface contracts, reuse, and necessary changes. Include useful implementation locations. Go into function-level constraints only when they affect behavior, safety, or feasibility.
+- **Work packages**: deliverable behavior, covered requirement identifiers, dependencies, required design links and their purpose, implementation boundaries, and acceptance. Size each package so it can be assigned and verified; implementation agents own ordinary internal details. Work across sessions or implementers still belongs to one complete roadmap.
+- **Overall acceptance**: requirement-level checks, end-to-end integration, relevant regressions, and necessary migration or rollout validation. Supply evidence-based check entry points or test scenarios. Do not present unverified commands as runnable. Passing every work package does not by itself establish overall acceptance.
+- **Risks and assumptions**: retain only risks, validation actions, and unresolved decisions that affect implementation, linked to the relevant work. Avoid unrelated assumptions.
 
-需求原意在总览维护，任务引用需求标识，整体验收关联需求和任务；每项详细设计只在所属主题文件维护，其他位置链接过去。目录式计划中，新增或语义变更的术语写在 `design/glossary.md`，记录定义、范围、概念关系、依据、状态及实施时归并到项目术语表的安排；稳定术语仅引用现有定义。无新增术语等可选主题时，在设计索引说明原因，不建空文件。单文件或聊天交付时保留相同职责的章节。无前置依赖的工作可并行，阶段串联必须通向最终集成和完整交付。
+Keep the requirements' original meaning in the overview. Tasks reference requirement identifiers, and overall acceptance links requirements to tasks. Each detailed design has one owning topic file; other files link to it. In directory plans, put new or semantically changed terms in `design/glossary.md`, recording definitions, scope, relationships, evidence, status, and how implementation will merge them into the project glossary. Stable terms reference existing definitions. Explain absent optional topics, such as a glossary with no additions, in the design index instead of creating empty files. Single-file and chat-only plans retain sections with the same responsibilities. Independent work can run in parallel; sequential phases must lead to final integration and complete delivery.
 
-完成条件：执行者无需重做需求访谈即可从计划开始实施；每项需求都有工作归属、验收依据和通向整体交付的路径。
+Completion criterion: an implementer can start from the plan without repeating requirements discovery. Every requirement has an owner, acceptance evidence, and a path to overall delivery.
 
-### 4. 交付前自查并修正
+### 4. Check and revise before delivery
 
-由代理完成，不新增用户审批关卡：
+The agent performs these checks without adding user approval gates:
 
-- 对照**原始需求及已授权变更**逐项检查：每项都映射到工作包和验收，不能只对照自己改写的缩水范围。
-- 检查被“第一版”“后续再做”、占位接口或演示掩盖的未完成需求，将其补回完整路线；这些词不是禁词，实际范围才是判断依据。
-- 检查跨模块集成及必要配套是否有人负责，全部工作完成后是否真的满足整体完成条件。
-- 检查是否把可查事实、普通技术决策或函数细节推给用户，或要求用户接着调用另一技能才能拿到计划；把这些工作收回代理。
-- 区分已核实事实、假设和关键未决事项；有阻塞时如实标明影响，不宣称无条件可执行。
-- 从总览沿链接阅读一个工作包，确认能定位所需设计和验收；检查设计索引、相对链接、需求／工作包标识与依赖，修复漏项、重复定义和空壳文件。新增术语与现有权威定义保持清晰的引用及变更关系。
+- Compare against the **original requirements and authorized changes**, mapping each to work and acceptance. Checking only an agent-written reduction of the scope is insufficient.
+- Find unfinished requirements hidden behind a "first version," "later," placeholders, or demonstrations, and restore their implementation path. These words are not prohibited; actual scope determines completeness.
+- Check that someone owns cross-module integration and necessary supporting work, and that completing all tasks will satisfy the overall completion criteria.
+- Take back any verifiable facts, ordinary technical choices, or function details pushed onto the user. Remove requirements to invoke another skill just to receive the plan.
+- Distinguish verified facts, assumptions, and critical unresolved decisions. State blockers and their effects without claiming unconditional executability.
+- Follow links from the overview through a work package to its required design and acceptance. Check the design index, relative links, requirement and work-package identifiers, and dependencies. Repair omissions, duplicate definitions, and empty files. Make additions and changes to authoritative terminology explicit through references.
 
-完整性自查是任务本身的一部分，不强制启动额外审查流程。
+Completeness checking is part of planning, not a mandatory separate review process.
 
-### 5. 保存并交付
+### 5. Save and deliver
 
-使用用户指定的位置；否则沿用项目现有文档约定。无约定时，目录式计划保存到 `docs/plans/<主题>/README.md` 及同目录的设计、任务和验收文件；小任务的单文件计划保存到 `docs/plans/<主题>.md`。自行选简短名称，不为文件名或位置询问用户。用户只要求聊天内方案时直接在回复中交付，不实际写文件或声称已保存。修订已有计划时保留上下文、需求标识和未决事项；调整结构需同步旧入口、有效链接、任务和验收，不留互相矛盾的版本。
+Use the user's requested location, otherwise follow the project's document conventions. Without either, save a directory plan at `docs/plans/<topic>/README.md` with its design, task, and acceptance files alongside it; save a small single-file plan at `docs/plans/<topic>.md`. Choose a short name without asking the user about filenames or locations. If the user asks for chat-only delivery, respond in chat without writing files or claiming they were saved. When revising a plan, preserve context, requirement identifiers, and unresolved decisions. Structural changes must update the old entry point, valid links, tasks, and acceptance without leaving conflicting versions.
 
-最后给出总览入口链接、建议阅读顺序、方案与完整交付范围的简要说明，以及确实存在的关键未决事项。计划完成即可交付，无需用户再批准已明确的步骤或手动串联其他技能。
+Finish with the overview link, suggested reading order, a brief description of the approach and full delivery scope, and any actual critical unresolved decisions. Deliver the completed plan without asking the user to approve already settled steps or manually chain other skills.
 
-## 维护验证
+## Maintenance validation
 
-修改本技能时用 [EVALS.json](EVALS.json) 中的场景验证范围覆盖、文件职责、阅读导航、提问边界及单入口行为；正常规划无需读取此文件。
+When changing this skill, use the scenarios in [EVALS.json](EVALS.json) to validate scope coverage, file responsibilities, navigation, question thresholds, and the single-entry-point behavior. Ordinary planning does not require reading that file.
