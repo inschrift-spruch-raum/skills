@@ -10,7 +10,7 @@ You invoke this by typing `/ask-matt`; the agent won't reach for it on its own.
 
 | Your situation | What the router gives back |
 | --- | --- |
-| A complete software implementation plan without tracker setup or a skill chain | A recommendation to type `/complete-plan` manually, with full requirement coverage and no implementation implied |
+| A complete software implementation plan without tracker setup or a skill chain | A recommendation to type `/complete-plan` manually, with full requirement coverage, navigable design topics and work packages, and no implementation implied |
 | A blocked or browser-rendered page whose text HTTP fetching cannot reach | The isolated Chromium reader, `browser-read` |
 | An idea, and no idea where to start | The head of the main flow, and whether the build is small enough to skip the spec |
 | Bugs and requests arriving from other people | The [triage](https://aihero.dev/skills-triage) on-ramp, and why [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) you generated yourself don't belong on it |

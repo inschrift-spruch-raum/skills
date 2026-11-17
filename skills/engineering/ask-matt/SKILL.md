@@ -14,7 +14,7 @@ A **flow** is a path through the skills. Most paths run along one **main flow**,
 
 ## Standalone planning
 
-For a complete software implementation plan in one document, tell the user to run **`/complete-plan`**. It is user-invoked: recommend it, but never invoke it automatically or from another skill. It covers requirements, research, technical choices, work packages, and end-to-end acceptance without requiring an issue tracker, setup, or a skill chain. It asks only about unresolved choices that materially change delivery. Planning does not authorize implementation.
+For a complete software implementation plan with navigable design topics and work packages, tell the user to run **`/complete-plan`**. It is user-invoked: recommend it, but never invoke it automatically or from another skill. It covers requirements, research, technical choices, work packages, and end-to-end acceptance without requiring an issue tracker, setup, or a skill chain. Complex plans use an overview and design topics under the plan's `design/`; small tasks can stay in one file. It asks only about unresolved choices that materially change delivery. Planning does not authorize implementation.
 
 Use the main flow below when you want the interview, spec, tracked issues, and build process instead. Explicit requests for a deep interview or a throwaway experiment still go to `/grilling` or `/prototype`.
 

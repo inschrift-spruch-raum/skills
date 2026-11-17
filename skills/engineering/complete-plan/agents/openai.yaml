@@ -1,5 +1,5 @@
 interface:
   display_name: "Complete Plan"
-  short_description: "Plan complete software delivery in one document"
+  short_description: "Plan software delivery with navigable design files"
 policy:
   allow_implicit_invocation: false

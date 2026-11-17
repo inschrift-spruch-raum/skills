@@ -167,7 +167,7 @@ Skills I use daily for code work.
 **User-invoked**
 
 - **[ask-matt](./skills/engineering/ask-matt/SKILL.md)**: Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.
-- **[complete-plan](./skills/engineering/complete-plan/SKILL.md)**: Turn software requirements into one complete implementation plan with research, work packages, and acceptance checks. No tracker setup or skill chain required; planning does not authorize implementation.
+- **[complete-plan](./skills/engineering/complete-plan/SKILL.md)**: Create a complete implementation plan with navigable design topics, work packages, and end-to-end acceptance. Small tasks can stay in one file; no tracker setup required; planning does not authorize implementation.
 - **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `GLOSSARY.md` and ADRs inline.
 - **[triage](./skills/engineering/triage/SKILL.md)**: Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.

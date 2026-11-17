@@ -7,7 +7,7 @@ Skills I use daily for code work.
 Reachable only when you type them (Claude Code: `disable-model-invocation: true`; Codex: `policy.allow_implicit_invocation: false` in `agents/openai.yaml`).
 
 - **[ask-matt](./ask-matt/SKILL.md)**: Ask which skill or flow fits your situation. A router over the user-invoked skills in this repo.
-- **[complete-plan](./complete-plan/SKILL.md)**: Turn software requirements into a complete implementation plan with work packages and acceptance checks, without tracker setup or a required skill chain. Planning only, not implementation.
+- **[complete-plan](./complete-plan/SKILL.md)**: Create a complete implementation plan with an overview, design topics, work packages, and acceptance checks. Small tasks can stay in one file; no tracker setup required. Planning only, not implementation.
 - **[grill-with-docs](./grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `GLOSSARY.md` and ADRs inline.
 - **[triage](./triage/SKILL.md)**: Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
